@@ -1,0 +1,16 @@
+h2 id="title" BuildaBuild
+
+a id="add_champ" href="/champions/new"
+    p id="button_text" Add Champion
+              
+div id="champion_list"
+    - @result.each do |champion| 
+        a class="champion_card" href="/champions/#{champion['Cahmpion_Id']}"
+
+            div class="champion_img"
+                img src="" alt="champion_img"/
+        
+            p class="champion_name" #{champion["Name"]}
+
+            form class="delete_button" method="POST" action="champions/#{champion['Cahmpion_Id']}/delete"
+                input type="submit" value="Delete"

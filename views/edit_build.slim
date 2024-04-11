@@ -1,0 +1,27 @@
+form action="/champion_build" method="post"
+    label Item 1
+    select  name="item1"
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    label Item 2
+    select  name="item2"  
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    label Item 3
+    select  name="item3"  
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    label Item 4
+    select  name="item4"  
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    label Item 5
+    select  name="item5"  
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    label Item 6
+    select  name="item6"  
+        -   @items.each do |item|
+                option value="#{item['Item_Id']}" #{item['Name']}
+    input type="hidden" name="champId" value=@champId
+    input type="submit" value="Apply"

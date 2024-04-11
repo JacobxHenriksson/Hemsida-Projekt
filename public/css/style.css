@@ -1,0 +1,129 @@
+#body {
+    background-color:rgb(242, 242, 242);
+}
+
+.link {
+    text-decoration: none;
+}
+
+#nav {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    background-color: rgb(17, 20, 31) ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    z-index: 1;
+}
+
+#nav2 {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+    align-items: center;
+}
+
+#container {
+    margin-top: 50px;
+}
+
+#champion_list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.champion_card {
+    flex: 1;
+    margin-top: 20px;
+    margin-right: 10px;
+    border: 2px solid black;
+    height: 400px;
+    min-width: 300px;
+    max-width: 300px;
+    display: grid;
+    grid-template: 
+    "img img" 80%
+    "nam del" 20% / 50% 50%
+    ;
+    text-decoration: none;
+    background-color: rgb(30, 37, 58);
+    border-radius: 3px;
+}
+
+.champion_name {
+    grid-area: nam;
+    align-self: center;
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 10px;
+    font-size: 30px;
+    color: rgb(242, 242, 242);
+}
+
+.champion_img {
+    grid-area: img;
+    border-bottom: 2px solid black;
+    background-color: rgb(242, 242, 242);
+}
+
+.delete_button {
+    grid-area: del;
+    align-self: center;
+    justify-self: center;
+}
+
+#add_champ {
+    height: 50px;
+    width: 150px;
+    border-radius: 20px;
+    background-color: rgb(30, 37, 58);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    text-decoration-line: none;
+    margin-left: 20px;
+    transition: all 0.5s;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#add_champ:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    top: 1.5vh;
+    right: -20px;
+    transition: 0.5s;
+    color: rgb(242, 242, 242);
+    font-size: 20px;
+}
+
+#add_champ:hover{
+    padding-right: 24px;
+    padding-left:8px;
+}
+
+#add_champ:hover:after {
+    opacity: 1;
+    right: 10px;
+}
+
+#button_text {
+    color: rgb(242, 242, 242);
+    padding-top: 2vh;
+}
+
+#title {
+    margin-left: 20px;
+    margin-top: 70px;
+    font-weight: bold;
+    font-size: 50px;
+}
