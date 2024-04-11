@@ -10,7 +10,6 @@ get('/')  do
     db = SQLite3::Database.new("db/db.db")
     db.results_as_hash = true
     @result = db.execute("SELECT * FROM champions ORDER BY Name ASC")
-    p session[:id], session[:currentuser], session[:permissions]
     slim(:champions)
 end 
 
@@ -60,7 +59,6 @@ post('/champion_build') do
     item5 = params[:item5]
     item6 = params[:item6]
     champId = params[:champId].to_i
-    p champId
     db.execute("UPDATE champions SET Item1 = ?, Item2 = ?, Item3 = ?, Item4 = ?, Item5 = ?, Item6 = ? WHERE Cahmpion_Id = ?", item1, item2, item3, item4, item5, item6, champId)
     redirect("champions/#{champId}")
 end
@@ -106,7 +104,6 @@ get('/champions/:id') do
     else
         @items['Item6'] = "no item yet"
     end
-    p @result
     slim(:"/show")
 end
 
@@ -154,7 +151,6 @@ post('/active_login') do
           session[:id] = id
           session[:currentuser] = currentuser
           session[:permissions] = permissions
-          p session[:id], session[:currentuser], session[:permissions]
           redirect('/')
         else
           flash[:notice] = "Wrong password"
