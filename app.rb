@@ -4,18 +4,18 @@ require 'sqlite3'
 require 'sinatra/reloader'
 require 'bcrypt'
 require 'sinatra/flash'
+require_relative './model.rb'
+include Model   
 enable :sessions
 
 get('/')  do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     @result = db.execute("SELECT * FROM champions ORDER BY Name ASC")
-    slim(:champions)
+    slim(:"champions/index")
 end 
 
 post('/champion') do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     name = params[:name]
     item1 = params[:item1]
     item2 = params[:item2]
@@ -28,30 +28,32 @@ post('/champion') do
 end
 
 get('/champions/new') do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     @items = db.execute("SELECT * FROM items")
-    slim(:"/add_champion")
+    slim(:"champions/new")
 end
 
 post('/champions/:id/delete') do
     id = params[:id].to_i
     db = SQLite3::Database.new("db/db.db")
-    db.execute("DELETE FROM champions WHERE Cahmpion_Id = ?",id)
+    if session[:permissions] != 2
+        flash[:notice] = "Only admin can delete"
+        p session[:permissions]
+    else
+        db.execute("DELETE FROM champions WHERE Cahmpion_Id = ?",id)
+    end
     redirect('/')
 end
 
 get('/champions/edit/:id') do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     @items = db.execute("SELECT * FROM items")
     @champId = params[:id]
-    slim(:"/edit_build")
+    slim(:"build/edit")
 end
 
 post('/champion_build') do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     item1 = params[:item1]
     item2 = params[:item2]
     item3 = params[:item3]
@@ -64,8 +66,7 @@ post('/champion_build') do
 end
 
 get('/champions/:id') do
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     id = params[:id].to_i
     @result = db.execute("SELECT * FROM champions WHERE Cahmpion_Id=?", id).first
     @items = {}
@@ -104,7 +105,7 @@ get('/champions/:id') do
     else
         @items['Item6'] = "no item yet"
     end
-    slim(:"/show")
+    slim(:"build/show")
 end
 
 get('/register') do
@@ -116,10 +117,12 @@ post('/active_register') do
     password = params[:password]
     confirm_password = params[:confirm_password]
 
+    validator(username)
+    validator(password)
+
     if (password == confirm_password)
         password_digest = BCrypt::Password.create(password)
-        db = SQLite3::Database.new("db/db.db")
-        db.results_as_hash = true
+        db = getdb
         db.execute('INSERT INTO "users" (username,pwdigest,permissions) VALUES (?,?,?)',username,password_digest,1)
         redirect('/login')
     else
@@ -136,9 +139,9 @@ end
 post('/active_login') do
     username=params[:username]
     password=params[:password]
-    db = SQLite3::Database.new("db/db.db")
-    db.results_as_hash = true
+    db = getdb
     result = db.execute("SELECT * From users WHERE username = ?",username).first
+    p result
     if result == nil
         flash[:notice] = "No such username exists"
         redirect('/login')
@@ -149,7 +152,7 @@ post('/active_login') do
     permissions = result["permissions"]
         if BCrypt::Password.new(pwdigest) == password
           session[:id] = id
-          session[:currentuser] = currentuser
+          session[:currentuser] = currentuser   
           session[:permissions] = permissions
           redirect('/')
         else

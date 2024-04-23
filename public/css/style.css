@@ -44,7 +44,6 @@
     flex: 1;
     margin-top: 20px;
     margin-right: 10px;
-    border: 2px solid black;
     height: 400px;
     min-width: 300px;
     max-width: 300px;
@@ -56,6 +55,7 @@
     text-decoration: none;
     background-color: rgb(30, 37, 58);
     border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .champion_name {
